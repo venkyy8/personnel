@@ -1,0 +1,143 @@
+explanation of sonarqube pipeline syntax.
+
+   stage('SonarQube Analysis') {
+     def scannerHome = tool 'sonarqube'          ------gobatool-configuration
+      withSonarQubeEnv('sonarqube_token') {      -------configure system
+      sh """/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarqube/bin/sonar-scanner \  --->before bin sonarqube is there that is goba tool conf.
+     -D sonar.projectVersion=1.0-SNAPSHOT \
+       -D sonar.login=admin \
+      -D sonar.password=DevOpsHint@123 \
+      -D sonar.projectBaseDir=/var/lib/jenkins/workspace/jenkins-sonarqube-pipeline/ \   ----pipeline-job[name o the job in place of jenkins-sonarqube-pipeline]
+        -D sonar.projectKey=project \       ---inplace of project project name ike my-app
+        -D sonar.sourceEncoding=UTF-8 \
+        -D sonar.language=java \
+        -D sonar.sources=project/src/main \     ----here is path of fie src/main --main file 
+        -D sonar.tests=project/src/test \       -----here is path of test file src/test
+        -D sonar.host.url=http://13.233.150.132:9000/"""    -----url of the sonar.
+        }
+}
+}
+---------------------------------------------------------------------------------------------
+this is the one method of sonarqube pipeline syntax.--al currect
+
+stage('SonarQube Analysis') {
+     def scannerHome = tool 'sonarqube'         
+      withSonarQubeEnv('sonarqube') {     
+      sh """/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarqube/bin/sonar-scanner \
+        -D sonar.projectVersion=1.0-SNAPSHOT \
+        -D sonar.login=admin \
+        -D sonar.password=admin123 \
+        -D sonar.projectBaseDir=/var/lib/jenkins/workspace/pipeline-job/ \
+        -D sonar.projectKey=my-app \
+        -D sonar.sourceEncoding=UTF-8 \
+        -D sonar.language=java \
+        -D sonar.sources=src/main \
+        -D sonar.tests=src/test \
+        -D sonar.host.url=http://52.91.106.193:9000/"""
+        }
+    }
+--------------------------------------------------------------------------------------------------
+trie-tree sonarqube pipeline.
+
+pipeline {
+    agent any
+        tools { 
+        maven 'maven-3.8.7'
+    }
+    stages {
+        stage('git checkout'){
+            steps {
+                git branch: 'main', url: 'https://github.com/venkyy8/24-01.git'
+            }
+    }
+    stage('sonarqube'){
+            steps {
+                withSonarQubeEnv(credentialsId: 'sonar-aws-serverid') {
+                     sh './mvnw clean sonar:sonar'
+                }
+            }
+    }
+        stage('maven clean'){
+            steps {
+            sh 'clean test package install'
+            }
+    }
+    
+       
+}
+}
+------------------------------------------------------------------------------------------------------------
+snippet for sonarqube pipeine
+
+stage('sonarqube'){
+            steps {
+		script{
+                withSonarQubeEnv('sonarqube') {     ---->here sonarqube is globa toos config.
+                     sh "mvn sonar:sonar"
+                }
+            }
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------
+correct sysntax of sonarqube pipeline
+
+pipeline {
+    agent any
+        tools { 
+        maven 'maven-3.8.7'
+    }
+    stages {
+        stage('git checkout'){
+            steps {
+                git branch: 'main', url: 'https://github.com/venkyy8/24-01.git'
+            }
+    }
+            stage('sonarqube'){
+            steps {
+		script{
+                withSonarQubeEnv('sonarqube') {    ----->here sonarqube is configure global tools name ok.
+                     sh "mvn sonar:sonar"
+                }
+            }
+    }
+}
+withSonarQubeEnv(credentialsId: 'sonar-aws-serverid') {
+    // some block
+}
+        stage('maven clean'){
+            steps {
+            sh 'clean test package install'
+            }
+    }
+}
+}
+---------------------------------------------------------------------------------------------------------------
+script by using pipeline-syntax generated code ony ******
+pipeline {
+    agent any
+        tools { 
+        maven 'maven-3.8.7'
+    }
+    stages {
+        stage('git checkout'){
+            steps {
+                git branch: 'main', url: 'https://github.com/venkyy8/24-01.git'
+            }
+    }
+            stage('sonarqube'){
+            steps {
+		script{
+    withSonarQubeEnv(credentialsId: 'sonar-aws-serverid') {    ----->here sonar-aws-serverid is sq credentials(it will take automatically whie creating syntax.)
+    sh "mvn sonar:sonar"
+}
+}
+}
+}
+        stage('maven clean'){
+            steps {
+            sh 'clean test package install'
+            }
+    }
+}
+}
