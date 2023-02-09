@@ -1,0 +1,158 @@
+•	Networking.
+•	Namespaces.
+•	Volumes.persistance volume
+•	Storage
+•	Cluster
+•	Services
+•	Deployment
+•	Scalability
+•	Rollback and rollout
+•	Statefull AND stateless application deployment
+•	Ingress
+•	Helm-charts.
+•	Security
+•	Deamonset 
+•	Lables
+•	Gateways
+•	Replication
+•	Addons
+•	Deployment
+•	Yaml file overview
+Kubernetes Basics Modules
+1. Create a Kubernetes cluster
+2. Deploy an app
+3. Explore your app
+4. Expose your app publicly
+5. Scale up your app
+6. Update your app
+
+ 
+
+
+
+
+
+
+
+
+	Deployment-application
+
+	replicaset
+
+	pod
+
+
+	container	container
+
+volume
+
+
+
+
+
+
+node
+
+
+                       pod
+	pod
+                                     container
+	container
+                                                                                                                          container
+	pod
+
+
+
+
+
+
+
+Kubctl create -f pathofdirectory/<yaml_file>   			  create resource by using existing yaml file.
+Qubctl expose 					to expose pod resource or service
+Qubctl run 					to run any image like nginx
+Qubctl sets 					to set specific features to 
+Qubctl explain					like man and –help
+Qubctl get 					to check all like pod or anything
+Kubctl delate -f <yaml_file>   			   delete resource by using existing yaml file.
+Kubctl get <resource_name> -o yaml  > one.yaml   to create yaml file by using existing resources.
+Kubctl get all 					  to disply all pods.
+Kubctl get pods					   to disply all pods.
+Kubctl logs podname 				 to see log of pod
+Kubctl exec -it podname –- bin/bash		to enter into pod I mean container
+
+•	Deployment:
+Rollout 				
+Scale				
+Autoscale			
+Describe			to know pod details
+Qubctl Logs podname		to check logs
+Qubctl attach			attach a running container
+Exec				to enter inti container
+Port forword			fprword port
+Cp 				copy file to  and from container
+Apply				to apply any changes
+Replace				replace resource by file name 
+Wight 				
+Label				
+Annotate		           to update resource &instead of edit in file from outside we can edit
+•	Cluster:
+Top <resource name>				cpu memory,storage usage 
+Cluster info 					cluster info how many nodes
+Cordon 						mark node as schedule
+uncorden						
+Drain						move node to maintaince
+Api -version					supported version
+Api -resource					same
+Config						 modify qubeconfig files
+Debug 		
+Qubctl scale deployment my-app –replica=5  for creating 5 pods
+Qubernates version –short                                 version
+Qubctl edit deployment <appname>                we can edit the yaml file directly like vim
+Qubctl  getvpod -o wide			       it will show pod details like op and 
+Qubctl port-forword pod 8000:80                    to forword the port,if we type in gg ip:8000 it will show application like nginx, basically wn ever pod not working or any troubleshhot is there we r check like this. 1st pod is working or not.not responding not working.(troublshoot)
+
+
+
+
+Kubctl api-versions && kubctl api-resources   && kubctl explain     sometimes syntax errors are coming because wt ever we r using resources those resources not supported thease versions. Every 3months once k8s updating their version, so that’s y we r facing thease syntax errors. So in that time we can use thease commands and we can know which version is suitable to thease resources.
+
+Kubectl run nginx –image=nginx 
+here kubctl run nginx create pod and –image=nginx will create container
+
+
+
+
+node
+
+
+                       pod
+	pod
+                                     container
+	container
+                                                                                                                          container
+	pod
+
+
+
+
+
+1.	When ever we r using qubectl run it will create deployment that means even we r deleting this pod it will create one more pod automatically with different id
+2.	Qubctl delete deployment nginx here pod name is like nginx-aldhif-klsi that means under nginx deployment that pod name if new pod created id only change 
+qubectl delete deployment/nginx
+here any command we can use like space or / here deployment is deleting now if u search for pod the pods r not showing y becs we deleted entire deployment.
+3.	In deploument file if mention replica like 3 we can create 3 pod at a time. For ex.
+V1 is 3 pods are there u want to install V2 so in that time 2 scenarios are there recreate and roll back. But recreate means we have to down the server and install V2 in this case downtime is there.but rollback is we r doing down the V1 pod1 down and rollback  V2 pod1 same like pod2 and p3. Wn ever new pod coming up we will do next rollback.
+kubectl create -f replicaset.yaml
+kubectl rollout history deployment/app
+kubectl rollout undo deployment/app --to-revision=2
+
+namespaces:
+
+qubectl create namespce venky to create namespaces.
+Qubectl get --all -namespaces  to show all namespaces
+Qubectl get pods -n venky  to show all pods in namespace of  venky
+Qubctl get pods -o wide it will display ips of pods
+
+statefull sets is used to assign same ip name to pods even ofter creating new pod if any pod deleted.
+if we use command like ls its not working because its linux command so k8s don’t kmow so use like –ls
+
